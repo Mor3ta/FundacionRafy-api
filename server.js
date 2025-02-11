@@ -16,10 +16,11 @@ const dbConfig = {
   password: process.env.DB_PASSWORD,
   server: process.env.DB_SERVER,
   database: process.env.DB_NAME,
+  port: parseInt(process.env.DB_PORT) || 1433,
   options: {
-    encrypt: true,
-    trustServerCertificate: true,
-  },
+    encrypt: process.env.DB_ENCRYPT === "true",
+    trustServerCertificate: process.env.DB_TRUST_SERVER_CERTIFICATE === "true"
+  }
 };
 
 sql.connect(dbConfig)
