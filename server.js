@@ -18,8 +18,8 @@ const dbConfig = {
   database: process.env.DB_NAME,
   port: 1433,
   options: {
-    encrypt: process.env.DB_ENCRYPT === "true",
-    trustServerCertificate: process.env.DB_TRUST_SERVER_CERTIFICATE === "true"
+    encrypt: true,
+    trustServerCertificate: false
   }
 };
 
@@ -74,5 +74,5 @@ app.post('/api/enviar-inscripcion', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
