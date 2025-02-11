@@ -16,7 +16,7 @@ const dbConfig = {
   password: process.env.DB_PASSWORD,
   server: process.env.DB_SERVER,
   database: process.env.DB_NAME,
-  port: parseInt(process.env.DB_PORT) || 1433,
+  port: 1433,
   options: {
     encrypt: process.env.DB_ENCRYPT === "true",
     trustServerCertificate: process.env.DB_TRUST_SERVER_CERTIFICATE === "true"
@@ -59,6 +59,7 @@ app.get('/api/inscripciones', async (req, res) => {
     const result = await pool.request().query('SELECT * FROM Inscripciones');
     res.status(200).json(result.recordset);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Error al obtener las inscripciones.' });
   }
 });
