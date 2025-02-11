@@ -70,6 +70,7 @@ app.post('/api/enviar-inscripcion', async (req, res) => {
     const response = await axios.post('http://localhost:5000/api/inscripciones', req.body);
     res.json(response.data);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Error al conectar con el backend' });
   }
 });
