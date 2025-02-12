@@ -7,9 +7,18 @@ import axios from 'axios';
 
 dotenv.config();
 
+const corsOptions = {
+  origin: ["https://torneoapi1.azurewebsites.net/", "https://www.fundacionrafybueno.org/"],
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+};
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cors(corsOptions));
+
+
 
 const dbConfig = {
   user: process.env.DB_USER,
@@ -97,7 +106,7 @@ app.post("/api/inscripcion-escolar", async (req, res) => {
 
     res.status(201).json({ message: "Inscripción escolar guardada con éxito" });
   } catch (error) {
-    console.error("Error al registrar inscripción escolar:", error);
+ 
     res.status(500).json({ error: "Error al registrar la inscripción" });
   }
 });
