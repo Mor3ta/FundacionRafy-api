@@ -64,15 +64,43 @@ app.get('/api/inscripciones', async (req, res) => {
   }
 });
 
-// Conectar el formulario con el backend usando fetch
-app.post('/api/enviar-inscripcion', async (req, res) => {
+// // Conectar el formulario con el backend usando fetch
+// app.post('/api/enviar-inscripcion', async (req, res) => {
+//   try {
+//     const response = await axios.post('http://localhost:5000/api/inscripciones', req.body);
+//     res.json(response.data);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error al conectar con el backend' });
+//   }
+// });
+
+
+app.post("/api/inscripcion-escolar", async (req, res) => {
   try {
-    const response = await axios.post('http://localhost:5000/api/inscripciones', req.body);
-    res.json(response.data);
+    const { nombreEquipo, manager, telefono, email, escuela, grado, provincia, municipio } = req.body;
+
+    const pool = await sql.connect(dbConfig);
+    await pool.request()
+      .input("nombreEquipo", sql.VarChar, nombreEquipo)
+      .input("manager", sql.VarChar, manager)
+      .input("telefono", sql.VarChar, telefono)
+      .input("email", sql.VarChar, email)
+      .input("escuela", sql.VarChar, escuela)
+      .input("grado", sql.VarChar, grado)
+      .input("provincia", sql.VarChar, provincia)
+      .input("municipio", sql.VarChar, municipio)
+      .query(`
+        INSERT INTO Inscripciones_Escolares (nombreEquipo, manager, telefono, email, escuela, grado, provincia, municipio)
+        VALUES (@nombreEquipo, @manager, @telefono, @email, @escuela, @grado, @provincia, @municipio)
+      `);
+
+    res.status(201).json({ message: "Inscripción escolar guardada con éxito" });
   } catch (error) {
-    res.status(500).json({ error: 'Error al conectar con el backend' });
+    console.error("Error al registrar inscripción escolar:", error);
+    res.status(500).json({ error: "Error al registrar la inscripción" });
   }
 });
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
