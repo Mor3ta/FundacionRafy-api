@@ -86,7 +86,7 @@ app.get('/api/inscripciones', async (req, res) => {
 
 app.post("/api/inscripcion-escolar", async (req, res) => {
   try {
-    const { nombreEquipo, manager, telefono, email, escuela, grado, provincia, municipio } = req.body;
+    const { nombreEquipo, manager, telefono, email, CentroEducativo, DistritoEducativo, provincia, municipio, disciplina } = req.body;
 
     const pool = await sql.connect(dbConfig);
     await pool.request()
@@ -98,18 +98,19 @@ app.post("/api/inscripcion-escolar", async (req, res) => {
       .input("DistritoEducativo", sql.VarChar, DistritoEducativo)
       .input("provincia", sql.VarChar, provincia)
       .input("municipio", sql.VarChar, municipio)
-      .input('diciplina', sql.VarChar, diciplina)
+      .input("disciplina", sql.VarChar, disciplina)
       .query(`
-        INSERT INTO Inscripciones_Escolares (nombreEquipo, manager, telefono, email, CentroEducativo, DistritoEducativo, provincia, municipio,disciplina)
-        VALUES (@nombreEquipo, @manager, @telefono, @email, @escuela, @grado, @provincia, @municipio,@disciplina)
+        INSERT INTO Inscripciones_Escolares (nombreEquipo, manager, telefono, email, CentroEducativo, DistritoEducativo, provincia, municipio, disciplina)
+        VALUES (@nombreEquipo, @manager, @telefono, @email, @CentroEducativo, @DistritoEducativo, @provincia, @municipio, @disciplina)
       `);
 
-    res.status(201).json({ message: "Inscripción escolar guardada con éxito" });
+    res.status(201).json({ message: " Inscripción escolar guardada con éxito" });
   } catch (error) {
- 
-    res.status(500).json({ error: "Error al registrar la inscripción" });
+    console.error(" Error al registrar inscripción escolar:", error);
+    res.status(500).json({ error: " Error al registrar la inscripción" });
   }
 });
+
 
 
 const PORT = process.env.PORT;
