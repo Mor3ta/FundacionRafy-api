@@ -85,13 +85,14 @@ app.post("/api/inscripcion-escolar", async (req, res) => {
       .input("manager", sql.VarChar, manager)
       .input("telefono", sql.VarChar, telefono)
       .input("email", sql.VarChar, email)
-      .input("escuela", sql.VarChar, escuela)
-      .input("grado", sql.VarChar, grado)
+      .input("CentroEducativo", sql.VarChar, CentroEducativo)
+      .input("DistritoEducativo", sql.VarChar, DistritoEducativo)
       .input("provincia", sql.VarChar, provincia)
       .input("municipio", sql.VarChar, municipio)
+      .input('diciplina', sql.VarChar, diciplina)
       .query(`
-        INSERT INTO Inscripciones_Escolares (nombreEquipo, manager, telefono, email, escuela, grado, provincia, municipio)
-        VALUES (@nombreEquipo, @manager, @telefono, @email, @escuela, @grado, @provincia, @municipio)
+        INSERT INTO Inscripciones_Escolares (nombreEquipo, manager, telefono, email, CentroEducativo, DistritoEducativo, provincia, municipio,disciplina)
+        VALUES (@nombreEquipo, @manager, @telefono, @email, @escuela, @grado, @provincia, @municipio,@disciplina)
       `);
 
     res.status(201).json({ message: "Inscripción escolar guardada con éxito" });
